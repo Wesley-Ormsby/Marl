@@ -1,0 +1,1 @@
+console.log(["1", 2, false, null, [1, [2, "3"]]].join(""))

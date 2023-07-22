@@ -1,0 +1,17 @@
+import { math_sqrt } from math
+
+fun isPrime(x) {
+  if [x 2 <] {
+    return [x.toString() " is not prime" +]
+  } else {
+    for i from 2 to math_sqrt(x) {
+      if [x i % 0 ==] {
+        return [x.toString() " is not prime" +]
+      }
+    }
+  }
+  return [x.toString() " is prime" +]
+}
+
+let number = 7
+print(isPrime(number))

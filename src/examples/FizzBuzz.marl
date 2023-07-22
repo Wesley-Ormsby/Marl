@@ -1,0 +1,16 @@
+for i from 1 to 100 {
+    case {
+        when [i 15 % 0 ==] {
+            print("FizzBuzz")
+        }
+        when [i 3 % 0 ==] {
+            print("Fizz")
+        }
+        when [i 5 % 0 ==] {
+            print("Buzz")
+        }
+        default {
+            print(i)
+        }
+    }
+}

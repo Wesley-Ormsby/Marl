@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=320, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Marl - Docs</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="highlight.js"></script>
+    <script src="main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="icon.svg" />
+    <style>
+        .typeingArea {
+            max-height:100%;
+}
+.lines {
+    max-height:100%;
+}
+        </style>
+    </style>
+  </head>
+  <body onload="createCodes()">
+    <nav>
+      <a href="index.html">
+        <img src="icon.svg" />
+        <p>Marl</p>
+      </a>
+      <div class="spacer"></div>
+      <a href="docs.html">Docs</a>
+      <a href="standardLibrary.html">Standard Library</a>
+      <a href="modules.html">Modules</a>
+      <a class="github" href="">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-github"
+        >
+          <path
+            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+          />
+          <path d="M9 18c-4.51 2-5-2-7-2" />
+        </svg>
+      </a>
+    </nav>
+    <header>
+      <img src="icon.svg" />
+      <div class="headTextAlign">
+        <h1>MARL</h1>
+        <h2>In 15 minutes...</h2>
+      </div>
+    </header>
+
+<div class="code" id="examples">
+# Welcome to Marl!
+
+# This is a single-line comment, everything after the '#' is ignored by the interpreter
+#{
+    You
+    Can
+    Also
+    Have
+    Multiline
+    Comments
+    Like
+    So
+}# 
+
+# IMPORTS
+# Imports must be at the top of the file 
+# Imports allow you to use functions from different modules
+# You can import all the functions in a module:
+import str # for string functions
+# You can import specific functions from a module:
+import { math_floor math_ceil math_pi } from math
+
+
+# VALUES
+# There are 5 types of values
+
+# Numbers
+4
+1.9
+0
+# Numbers can be prepended with a '-' to make negative numbers (make sure there is no space between them!)
+-23
+
+# Booleans
+true
+false
+
+# Strings
+"Hello, world!"
+# There are 3 possible escape characters: '\\' --> '\', '\n' --> 'newline', '\"' --> '"'
+"James said:\n\"Don't go in the woods!\""
+# Strings can be multiline
+"James said:
+\"Don't go in the woods!\""
+
+# Nil
+nil 
+
+# Stacks 
+# A stack is like a list or array
+(1 2 3) # This stack has three values. From left to right, each value will be pushed to the top of the stack (1 is at the bottom, and 3 at the top)
+# Stacks can have different types of values
+(1 "one" true nil)
+# Stacks can even have stacks in them!
+(1 (2 3) 4 (5 6 (7 8) 9) 10)
+# This looks a little better if you format it:
+(
+    1
+    (
+    2
+    3
+    )
+    4
+    (
+    5
+    6
+    (
+        7
+        8
+    )
+    9
+    )
+    10
+)
+
+# OPERATORS
+# Operators can occur in stacks using postfix notation
+
+# Arithmetic operators
+(15 4 -)      # (11)     subtraction
+(15 4 *)      # (60)     multiplication
+(15 3 /)      # (5)      division
+(2 5 ^)       # (32)     power
+(15 4 %)      # (3)      remainder division
+(15 4 //)     # (3)      floor division
+(15 4 +)      # (19)     addition
+("ab" "cd" +) # ("abcd") concatenation
+
+# Comparison operators
+(15 4 <)  # (false) less than
+(15 4 >)  # (true)  greater than
+(15 4 <=) # (false) less than or equal to
+(15 4 >=) #  (true) greater than or equal to
+(15 4 ==) # (false) equal to
+    # The types must be the same to evaluate to true:
+    (5 5 ==)     # (true)
+    (5 "5" ==)   # (false)
+    (nil nil ==) # (true)
+
+# Logical operators
+# These operators depend on whether a value HAS VALUE
+# These all have value:
+# - a non-zero number
+# - a non-empty string 
+# - a non-empty stack
+# These all have no value:
+# - a zero 
+# - an empty string 
+# - an empty stack 
+# - a nil
+# The and operator will return the left value if it has no value, and the right if it has value:
+(true false &) # (false)
+(false true &) # (false)
+(true "yes" &) # ("yes")
+# The or operator will return the left value if it has value, and the right if it has no value:
+(true false |) # (true)
+(false true |) # (true)
+(true "yes" |) # (true)
+# The not operator is a unary operator and returns true if the value has no value, and false if the value has value:
+(true !)  # (false)
+(false !) # (true)
+("yes" !) # (false)
+
+# Multiple operations can occur in the same stack:
+(2 5 * 4 - 6  3 / /) # (3)
+# In infix notation, this would look like: ((2 * 5) - 4) / (6 / 3)
+
+# SPECIAL VALUES
+# There are 2 more 'special values'
+# They are not values themselves, but return values
+
+# Temporary stacks return the top value of its stack after evaluated:
+[1 2 3 4]   # 4
+[4 5 *]     # 20
+[1 2 (3 4)] # (3 4)
+
+# Functions add more use-cases:
+# - print() will output the argument to the terminal. It then returns nil
+# - input() asks the user to input some text and returns that as a string 
+# - Other functions can be found in the standard library page
+print("Hello, world!") # Shows "Hello, world!" in the terminal and returns nil 
+# Make sure you use the correct number of arguments and the right types!
+# You can also create your own function. We'll learn this later
+
+# Statements are the second attribute of Marl
+# Statements must be used outside of stacks
+
+# VARIABLES
+# Variables can be defined and used.
+# There are two types of variables.
+# Immutable variables cannot be reassigned. They use the 'val' keyword (short for value)
+val l = 7
+val w = 8
+val area = [l w *] # 52
+# Mutable variables can be reassigned. They use the 'let' keyword
+let myName = "John"
+myName = [myName " Black" +]
+print(myName) # Prints "John Black"
+
+# IF STATEMENTS
+val myCatName = "Leo"
+if [myCatName "Leo" ==] {
+    print("Yes, my cat is named Leo")
+}
+# If the condition has value, the first scope of the if statement will evaluate
+# In this case, the condition [myCatName "Leo" ==] was true, so it had value, and "YES" is printed
+# If statements have an optional else scope:
+if [myCatName "Kitty" ==] {
+    print("Yes, my cat is named Kitty")
+} else {
+    print(["No, my cat is named " myCatName +])
+}
+# Because my cat is named Leo, not Kitty, the else scope will evaluate and print "No, my cat is named Leo"
+# Any amount of elif scopes can be used between the if scope and else scope:
+val temperature = 17 # ˚C
+if [temperature 30 >] {
+    print("It's sweltering outside!")
+} elif [temperature 25 >] {
+    print("It's hot outside")
+} elif [temperature 15 >] {
+    print("It's a nice day for a walk")
+} elif [temperature 5 >] {
+    print("It's a bit cool out")
+} elif [temperature 0 >] {
+    print("It's quite frigid")
+} else {
+    print("Make sure you bundle up in this freezing weather!")
+}
+# The second elif scope will evaluate because its condition temperature is greater than 15, printing "It's a nice day for a walk"
+# Once one scope is evaluated, no other scopes in the statement will evaluate
+
+# CASE STATEMENTS
+# Case statements can simplify long if-elif-else chains:
+val breakfast = "Eggs"
+case {
+    when ["Pancakes" breakfast ==] { 
+    print("I'm eating pancakes with syrup")
+    }
+    when ["Eggs" breakfast ==] { 
+    print("I'm eating eggs")
+    }
+    when ["French Toast" breakfast ==] { 
+    print("It's a French toast morning!")
+    }
+    default {
+    print(["I'm eating " breakfast +])
+    }
+}
+# Within a case statement are any number of when statements.
+# Descending down the when statements, each condition is evaluated.
+# If the condition has value, the when scope is evaluated, and no other scopes (or conditions) in the statement are evaluated
+# If no when scopes are evaluated, the default scope is evaluated
+# The default scope is optional though, you don't need one in a case statement
+
+# VARIABLE SCOPING
+# When entering a new scope, previously defined variables are still available to use and reassign
+# New variables can also be defined, but when exiting the scope, those new variables cease to exist:
+let myUncle = "Sam"
+if [myUncle "Sam" ==] {
+    # New scope
+    let myAunt = "Sarah"
+    print(myAunt) # Sarah
+}
+# myAunt is no longer defined, if used, it will error
+# The newest scope's variables have precedence over previous scopes:
+let number = 1
+if true {
+    print(number) # 1
+    number = 3
+    print(number) # 3
+    let number = 7 # A new variable in the scope is defined
+    print(number) # 7
+    number = 2 
+    print(number) # 2
+}
+# The number = 2 variable is discarded, but number = 3 (belonging to this scope) exists
+print(number) # 3
+
+# LOOPS
+# There are three types of loops in Marl
+
+# while loops repeat until the condition has no value:
+let i = 5
+while [i 0 >] {
+    print(i)
+    i = [i 1 -]
+} # Prints 5 4 3 2 1 on new lines
+
+# foreach loops repeat with each value in a stack:
+foreach i of (5 4 3 2 1) {
+    print(i)
+} # Prints 5 4 3 2 1 on new lines
+# Each iteration through the loop assigns the current value to the variable (in this case 'i')
+# For example, in the first iteration i = 5, then i = 4, then i = 3...
+# For loops repeat a certain number of times between two numbers
+
+for i from 5 to 1 by -1 {
+    print(i)
+}
+# Iteration 1: i = from value (5)
+# Iteration 2: i = i + by value (4)
+# Iteration 3: i = i + by value (3)
+# Iteration 4: i = i + by value (2)
+# Iteration 5: i = i + by value (1). i now equals the to value (1), so this is the last iteration
+
+# The by value defaults to 1 or -1, depending on whether the from value is greater than the to value
+for i from 5 to 1 {
+    print(i)
+} # Prints 5 4 3 2 1 on new lines
+for i from 1 to 5 {
+    print(i)
+} # Prints 1 2 3 4 5 on new lines
+
+# You can change the by value:
+for i from 1 to 6 by 2 {
+    print(i)
+} # Prints 1 3 5 on new lines
+# Iteration 1: i = from value (1)
+# Iteration 2: i = i + by value (3)
+# Iteration 3: i = i + by value (5)
+# Iteration 4: i = i + by value (7), surpassing the to value, meaning there is no iteration 4
+
+# There are 2 special keywords that can be used in loops
+# exit stops evaluating the loop altogether
+
+# In this case, the loop is exited when i = 3:
+for i from 1 to 10 {
+    if [i 3 ==] {
+    exit
+    }
+    print(i)
+} # Prints 1 2 on newlines
+
+# next stops the iteration of the loop, continuing to the next iteration
+# In this case, the loop skips iteration i = 3
+for i from 1 to 10 {
+    if [1 3 ==] {
+    next
+    }
+    print(i)
+} # Prints 1 2 4 5 6 7 8 9 10
+
+# FUNCTIONS
+# Functions can be defined in Marl, but not as values (first-class citizens)
+fun square(x) {
+    print([x 2 ^])
+}
+# This function is called 'square'. It will take 1 argument, called 'x'. Assigning it to a local variable within the function scope.
+# You can now call the function
+square(7) # Prints 49
+square(8) # Prints 64
+# A variable called 'square' is different than a function called square:
+val square = 4
+square(square) # 16
+# No space can be present between the function name and '(', because otherwise, it is a variable and a stack
+square (square) # 4 (4)
+
+# Functions are bound to the scope they are created in and can be called anywhere in the scope or child scopes
+# It can even be called before the function is defined
+add(1 7) # 8
+# This function takes 2 arguments
+fun add(x y) {
+    print([x y +])
+}
+if [add(3 4) 7 ==] {
+    print(["Yes! 3 + 4 = " add(3 4) +]) # Yes! 3 + 4 = 7
+}
+
+# Functions can have a return statement which outputs the following value
+# With no return statement, or a return statement with no value, nil is returned
+fun square(x) {
+    return [x 2 ^]
+}
+let squareOfSix = square(6)
+print(squareOfSix) # 36
+
+# You can make a recursive loop with returns:
+fun loopTillFour(i) {
+    if [i 5 ==] {
+    return
+    }
+    print(i)
+    loopTillFour([i 1 +])
+}
+loopTillFour(1) # Prints 1 2 3 4 on newlines
+
+# unpack is like a return in all aspects but one 
+# if a function is called while in a stack and the unpacked value is a stack, the values in the unpacked stack will be added to the stack the function was called in
+fun returnStack() {
+    return (3 4 5) # Value is added to the stack
+}
+fun unpackStack() {
+    unpack (3 4 5) # Individual values within the stack are added to the stack
+}
+print((1 2 returnStack())) # (1 2 (3 4 5)) 
+print((1 2 unpackStack())) # (1 2 3 4 5)
+
+# METHODS
+# Marl allows uniform function calls, meaning functions can be called as methods
+# The base value will be the first argument of the function
+fun subtract(a b) {
+    return [a b -]
+}
+# Normal syntax
+print(subtract(5 2)) # 3
+# Method call syntax
+let minuend = 5
+minuend.subtract(2).print() # 3
+
+# Method calls work on all values
+1.print()
+true.print()
+nil.print()
+"myStr".print()
+(1 2 3).print()    
+
+
+# BOOM!
+# You've just learned Marl
+# Discover more functions in the standard library page or modules page
+# Try out marl online right here! Or download from the home page!</div>
+  </body>
+</html>

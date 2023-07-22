@@ -1,0 +1,25 @@
+{
+  "name": "marl",
+  "version": "1.0.1",
+  "description": "A new stack oriented programming languge with statments",
+  "main": "./src/cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git repo"
+  },
+  "keywords": [
+    "language",
+    "stack",
+    "general purpose"
+  ],
+  "author": "Wesley Ormsby",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "marl": "./src/cli.js"
+  }
+}
