@@ -102,7 +102,6 @@ function changeExample(select) {
         oldText = oldText.slice(1);
       }
     }
-    console.log(newText);
     document.querySelector(`#id${id} .consoleText`).innerHTML +=
       newText + "<br>";
   }
@@ -111,6 +110,7 @@ function changeExample(select) {
     import("./../src/marl.js").then((module) => {
       module.marl(textarea.value, output, id);
     });
+    marl(textarea.value, output, id)
   }
 
   function update(textarea) {
