@@ -5,6 +5,7 @@ html {
   --bg2: #1f1f1f;
   --color: #e2e2e2;
   --color2: #9a9a9a;
+  font-size: 16px;
 }
 p {
   color: var(--color);
@@ -82,7 +83,7 @@ textarea,
   border: 0;
   border-top-right-radius: 5px;
 
-  font-size: 17px;
+  font-size: 16px;
   font-family: monospace;
   line-height: 18pt;
   tab-size: 2;
@@ -115,7 +116,7 @@ textarea,
   /* same as text area */
   overflow: hidden;
   padding: 5px 8px;
-  font-size: 17px;
+  font-size: 16px;
   font-family: monospace;
   line-height: 18pt;
   max-height: 340px;
@@ -216,13 +217,19 @@ body {
 .body {
   display: block;
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 5%;
+  margin-right: 5%;
   background-color: var(--bg2);
   padding: 30px;
   border-radius: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
 }
 .code {
   white-space: pre;
@@ -247,6 +254,14 @@ code pre {
   border-radius: 2px;
 }
 
+h3 {
+  color: var(--color2);
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Make Nav Responsive */
 nav {
   top: 0;
   margin: 0px;
@@ -256,11 +271,8 @@ nav {
   width: 100%;
   display: flex;
   height: 60px;
-  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid var(--bg);
-}
-nav .spacer {
-  width: 100%;
 }
 nav img {
   height: 80%;
@@ -278,48 +290,71 @@ nav a {
 nav a:hover {
   filter: brightness(120%);
 }
-
-ul a {
-  color: var(--primary);
+nav a svg {
+  width: 18px;
 }
-ul {
-  list-style: none;
+.menu {
+  display: none;
+  min-height: 60px;
+  justify-content: end;
 }
-ul li::before {
-  color: var(--color2);
-  content: "\2022"; 
-  color: var(--color2); 
-  font-weight: bold; 
-  display: inline-block;
-  width: 15px;
-  margin-left: -15px; /* Also needed for space (tweak if needed) */
+.navDropDown {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
 }
-
-h3 {
-    color: var(--color2);
-    font-size: 30px;
-    margin-top:10px;
-  margin-bottom: 10px;
+.expandableNav {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+@media screen and (max-width: 450px) {
+  .menu {
+    display: flex;
+    padding: 0px;
   }
-h4 {
-  color: var(--color2);
-  font-size: 27px;
-  margin-top:10px;
-  margin-bottom: 10px;
-}
-h5 {
-  color: var(--color2);
-  font-size: 23px;
-  margin-top:10px;
-  margin-bottom: 10px;
-}
-h6 {
-color: var(--color2);
-font-size: 20px;
-margin-top:10px;
-  margin-bottom: 10px;
+  .expandableNav .navDropDown {
+    display: none;
+    position: relative;
+    border: 1px solid var(--bg);
+    border-top: 0px;
+  }
+  .expandableNav:hover .navDropDown {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg2);
+    height: fit-content;
+  }
 }
 
-nav .github{
-  width:25px;
+/* Other Responsive Elements */
+@media screen and (max-width: 450px) {
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  p {
+    font-size: 16px;
+  }
+  code {
+    font-size: 12px;
+  }
+  .lines,
+  textarea,
+  .forground {
+    font-size: 12px;
+  }
+  header img {
+    height: 120px;
+  }
+  .block {
+    width: 100%;
+  }
 }

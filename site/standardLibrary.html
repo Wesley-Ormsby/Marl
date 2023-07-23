@@ -14,68 +14,78 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/x-icon" href="icon.svg" />
-   <style>
-    .content {
-        display:flex;
-    }
-    #sideBar {
-        border-radius:10px;
+    <style>
+      .content {
+        display: flex;
+      }
+      #sideBar {
+        border-radius: 10px;
         background-color: var(--bg2);
         display: flex;
         flex-direction: column;
         width: 200px;
         overflow-y: scroll;
         overflow-x: hidden;
-        height:600px;
-        margin: 0px 10px 20px 20px;
-    }
-    div[data-selected="true"] {
+        height: 600px;
+        margin: 10px 10px 20px 5%;
+      }
+      div[data-selected="true"] {
         background-color: var(--primary);
-        color:var(--bg2)
-    }
-    .sideBarItem {
-        color:var(--color);
-        padding:10px;
+        color: var(--bg2);
+      }
+      .sideBarItem {
+        color: var(--color);
+        padding: 10px;
         height: 100%;
-        width:100%;
-        margin:0px;
-    }
-    .sideBarItem:hover {
-        filter:brightness(120%)
-    }
-    .info {
-        border-radius:10px;
+        width: 100%;
+        margin: 0px;
+      }
+      .sideBarItem:hover {
+        filter: brightness(120%);
+      }
+      .info {
+        border-radius: 10px;
         background-color: var(--bg2);
-        width:100%;
+        width: 100%;
         overflow-y: scroll;
         overflow-x: scroll;
-        height:600px;
-        margin: 0px 20px 20px 20px;
-    }
-    .info .infoPadding {
-        padding:25px;
-    }
-    code {
+        height: 600px;
+        margin: 10px 5% 20px 20px;
+      }
+      .info .infoPadding {
+        padding: 25px;
+      }
+      code {
         display: inline-block;
-  color: var(--color2);
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 2px;
-  border-radius: 4px;
-  margin:0px 5px;
-  font-family: monospace;
-  font-size: smaller;
-    }
-    #title {
-        font-size:50px;
-    }
-    #parms {
+        color: var(--color2);
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 2px;
+        border-radius: 4px;
+        margin: 0px 5px;
+        font-family: monospace;
+        font-size: smaller;
+      }
+      #title {
+        font-size: 50px;
+      }
+      #parms {
         font-size: 20px;
-    }
-    .block {
-        width:100%;
-
-    }
-   </style>
+      }
+      .block {
+        width: 100%;
+      }
+      @media screen and (max-width: 450px) {
+        #title {
+          font-size: 20px;
+        }
+        #parms {
+          font-size: 16px;
+        }
+        .info {
+          margin-left: 0px;
+        }
+      }
+    </style>
   </head>
   <body>
     <nav>
@@ -83,27 +93,51 @@
         <img src="icon.svg" />
         <p>Marl</p>
       </a>
-      <div class="spacer"></div>
-      <a href="docs.html">Docs</a>
-      <a href="standardLibrary.html">Standard Library</a>
-      <a href="modules.html">Modules</a>
-      <a class="github" href="https://github.com/Wesley-Ormsby/Marl/tree/main">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-github"
-        >
-          <path
-            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
-          />
-          <path d="M9 18c-4.51 2-5-2-7-2" />
-        </svg>
-      </a>
+      <div class="expandableNav">
+        <a class="menu" href="javascript:void(0)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-menu"
+          >
+            <line x1="4" x2="20" y1="12" y2="12" />
+            <line x1="4" x2="20" y1="6" y2="6" />
+            <line x1="4" x2="20" y1="18" y2="18" />
+          </svg>
+        </a>
+        <div class="navDropDown">
+          <a href="docs.html">Docs</a>
+          <a href="standardLibrary.html">Standard Library</a>
+          <a href="modules.html">Modules</a>
+          <a
+            class="github"
+            href="https://github.com/Wesley-Ormsby/Marl/tree/main"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-github"
+            >
+              <path
+                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+              />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
+          </a>
+        </div>
+      </div>
     </nav>
     <header>
       <img src="icon.svg" />
@@ -113,145 +147,172 @@
       </div>
     </header>
     <div class="content">
-        <div id="sideBar"></div>
-        <div class="info">
-            <div class="infoPadding">
-            <h3 id="title"></h3>
-            <code id="parms"></code>
-            <p id="description"></p>
-            <div class="code"></div>
+      <div id="sideBar"></div>
+      <div class="info">
+        <div class="infoPadding">
+          <h3 id="title"></h3>
+          <code id="parms"></code>
+          <p id="description"></p>
+          <div class="code"></div>
         </div>
-        </div>
+      </div>
     </div>
 
-<script>
-    createCodes()
-    const functions = {
+    <script>
+      createCodes();
+      const functions = {
         print: {
-            parms: "output[any]",
-            description: "Displays <code>output</code> in the terminal. Returns <code>nil</code>.",
-            example: "print(true)\nprint((1 2 3))\nprint(\"Hello, World!\")"
+          parms: "output[any]",
+          description:
+            "Displays <code>output</code> in the terminal. Returns <code>nil</code>.",
+          example: 'print(true)\nprint((1 2 3))\nprint("Hello, World!")',
         },
         toNumber: {
-            parms: "input[number|bool|nill|string]",
-            description: "If <code>input</code> is a number, return the number.\nIf <code>input</code> is a bool, return <code>1</code> if true and <code>0</code> if false.\nIf <code>input</code> is nil, return <code>0</code>.\nIf <code>input</code> is a string, parse the string. If the string is a valid number, return that number, otherwise, an error occurs.",
-            example: "print(true.toNumber())\nprint(\"-1.3\".toNumber())"
+          parms: "input[number|bool|nill|string]",
+          description:
+            "If <code>input</code> is a number, return the number.\nIf <code>input</code> is a bool, return <code>1</code> if true and <code>0</code> if false.\nIf <code>input</code> is nil, return <code>0</code>.\nIf <code>input</code> is a string, parse the string. If the string is a valid number, return that number, otherwise, an error occurs.",
+          example: 'print(true.toNumber())\nprint("-1.3".toNumber())',
         },
         toBool: {
-            parms: "input[any]",
-            description: "Returns <code>true</code> if <code>input</code> has value, otherwise returns <code>false</code>",
-            example: "print((1 2 3).toBool())\nprint(0.toBool())"
+          parms: "input[any]",
+          description:
+            "Returns <code>true</code> if <code>input</code> has value, otherwise returns <code>false</code>.",
+          example: "print((1 2 3).toBool())\nprint(0.toBool())",
         },
         toString: {
-            parms: "input[any]",
-            description: "Returns <code>input</code> as a string.",
-            example: "print(12.4.toString())\nprint(true.toString())\nprint(nil.toString())\nprint((1 2 3).toString())"
+          parms: "input[any]",
+          description: "Returns <code>input</code> as a string.",
+          example:
+            "print(12.4.toString())\nprint(true.toString())\nprint(nil.toString())\nprint((1 2 3).toString())",
         },
         unwrap: {
-            parms: "input[stack]",
-            description: "Unpacks <code>input</code>. If called in a stack, each value in <code>input</code> will be pushed to the stack.",
-            example: "val fourToSix = (3 4)\nprint((1 2 unwrap(fourToSix) 5 6))"
+          parms: "input[stack]",
+          description:
+            "Unpacks <code>input</code>. If called in a stack, each value in <code>input</code> will be pushed to the stack.",
+          example: "val fourToSix = (3 4)\nprint((1 2 unwrap(fourToSix) 5 6))",
         },
         push: {
-            parms: "base[stack] value[any]",
-            description: "Push <code>value</code> to the top of <code>base</code>, mutating it and returning the new stack.",
-            example: "val myStack = (1 2 3)\nmyStack.push(4)\nprint(myStack)"
+          parms: "base[stack] value[any]",
+          description:
+            "Push <code>value</code> to the top of <code>base</code>, mutating it and returning the new stack.",
+          example: "val myStack = (1 2 3)\nmyStack.push(4)\nprint(myStack)",
         },
         underPush: {
-            parms: "base[stack] value[any]",
-            description: "Put <code>value</code> on the bottom of <code>base</code>, mutating it and returning the new stack",
-            example: "val myStack = (2 3 4)\nmyStack.underPush(1)\nprint(myStack)"
+          parms: "base[stack] value[any]",
+          description:
+            "Put <code>value</code> on the bottom of <code>base</code>, mutating it and returning the new stack",
+          example:
+            "val myStack = (2 3 4)\nmyStack.underPush(1)\nprint(myStack)",
         },
         pull: {
-            parms: "input[stack]",
-            description: "Remove the top value of <code>input</code>, mutating it and returning the value.",
-            example: "let myStack = (1 2 3 4 5)\nprint(myStack.pull())\nprint(myStack)"
+          parms: "input[stack]",
+          description:
+            "Remove the top value of <code>input</code>, mutating it and returning the value.",
+          example:
+            "let myStack = (1 2 3 4 5)\nprint(myStack.pull())\nprint(myStack)",
         },
         underPull: {
-            parms: "input[stack]",
-            description: "Remove the bottom value of <code>input</code>, mutating it and returning the value.",
-            example: "let myStack = (1 2 3 4 5)\nprint(myStack.underPull())\nprint(myStack)"
+          parms: "input[stack]",
+          description:
+            "Remove the bottom value of <code>input</code>, mutating it and returning the value.",
+          example:
+            "let myStack = (1 2 3 4 5)\nprint(myStack.underPull())\nprint(myStack)",
         },
         length: {
-            parms: "input[string|stack]",
-            description: "Returns the number of characters in <code>input</code> if it is a string, or the number of values if <code>input</code> is a stack.",
-            example: "print((1 2 3).length())\nprint(\"123\".length())"
+          parms: "input[string|stack]",
+          description:
+            "Returns the number of characters in <code>input</code> if it is a string, or the number of values if <code>input</code> is a stack.",
+          example: 'print((1 2 3).length())\nprint("123".length())',
         },
         type: {
-            parms: "input[any]",
-            description: "Returns the type of <code>input</code> as a string.",
-            example: "print((1 2 3).type())\nprint(false.type())"
+          parms: "input[any]",
+          description: "Returns the type of <code>input</code> as a string.",
+          example: "print((1 2 3).type())\nprint(false.type())",
         },
         charFromCode: {
-            parms: "unicodeChar[number]",
-            description: "Returns the unicode character of character code <code>unicodeChar</code>",
-            example: "print(35.charFromCode())\nprint(72.charFromCode())"
+          parms: "unicodeChar[number]",
+          description:
+            "Returns the unicode character of character code <code>unicodeChar</code>",
+          example: "print(35.charFromCode())\nprint(72.charFromCode())",
         },
         codeFromChar: {
-            parms: "char[string]",
-            description: "Returns the unicode code of character <code>char</code>. <code>char</code> must be a single character.",
-            example: "print(\"#\".codeFromChar())\nprint(\"H\".codeFromChar())"
+          parms: "char[string]",
+          description:
+            "Returns the unicode code of character <code>char</code>. <code>char</code> must be a single character.",
+          example: 'print("#".codeFromChar())\nprint("H".codeFromChar())',
         },
         flip: {
-            parms: "input[stack]",
-            description: "Returns the reverse order of the values in <code>stack</code> (the top becomes the bottom and bottom becomes the top).",
-            example: "print((1 2 3).reverse())"
+          parms: "input[stack]",
+          description:
+            "Returns the reverse order of the values in <code>stack</code> (the top becomes the bottom and bottom becomes the top).",
+          example: "print((1 2 3).reverse())",
         },
         index: {
-            parms: "base[string|stack] index[number]",
-            description: "If <code>base</code> is a string, return the character at index <code>index</code>. If it is a stack, return the value at index <code>index</code>. Indexing starts at <code>1</code> with the fist character/value and <code>index</code> must be an interger. Negative indexes start indexing at the end of the string/stack with index <code>-1</code> and work their way to the start of the value.",
-            example: "print((\"one\" \"two\" \"three\").index(2))\nprint(\"Hello, world!\".index(2))\nprint(\"Hello, world!\".index(-2))"
+          parms: "base[string|stack] index[number]",
+          description:
+            "If <code>base</code> is a string, return the character at index <code>index</code>. If it is a stack, return the value at index <code>index</code>. Indexing starts at <code>1</code> with the fist character/value and <code>index</code> must be an interger. Negative indexes start indexing at the end of the string/stack with index <code>-1</code> and work their way to the start of the value.",
+          example:
+            'print(("one" "two" "three").index(2))\nprint("Hello, world!".index(2))\nprint("Hello, world!".index(-2))',
         },
         wait: {
-            parms: "seconds[any]",
-            description: "Waits <code>seconds</code> seconds. Returns <code>nil</code>.",
-            example: "print(\"Hello,\")\nwait(2)\nprint(\"World\")\nwait(0.5)\nprint(\"!!!\")"
+          parms: "seconds[any]",
+          description:
+            "Waits <code>seconds</code> seconds. Returns <code>nil</code>.",
+          example:
+            'print("Hello,")\nwait(2)\nprint("World")\nwait(0.5)\nprint("!!!")',
         },
         random: {
-            parms: "number1[number] number2[number]",
-            description: "<code>number1</code> and <code>number2</code> must be intergers. Returns an interger between <code>number1</code> and <code>number2</code> (both inclusive)",
-            example: "for i from 1 to 20 {\n\tprint(random(1 10))\n}"
+          parms: "number1[number] number2[number]",
+          description:
+            "<code>number1</code> and <code>number2</code> must be intergers. Returns an interger between <code>number1</code> and <code>number2</code> (both inclusive)",
+          example: "for i from 1 to 20 {\n\tprint(random(1 10))\n}",
         },
         input: {
-            parms: "prompt[string]",
-            description: "Ask the user for input with <code>prompt</code>. Return the input as a stirng. This function does not work on the online editor.",
-            example: "print(input(\"What is your name?\"))"
+          parms: "prompt[string]",
+          description:
+            "Ask the user for input with <code>prompt</code>. Return the input as a stirng. This function does not work on the online editor.",
+          example: 'print(input("What is your name?"))',
         },
         split: {
-            parms: "base[string] seperator[string]",
-            description: "Returns a stack of <code>base</code> split into strings by <code>seperator</code>",
-            example: "print(\"123\".split(\"\"))\nprint(\"1, 2, 3\".split(\", \"))"
+          parms: "base[string] seperator[string]",
+          description:
+            "Returns a stack of <code>base</code> split into strings by <code>seperator</code>",
+          example: 'print("123".split(""))\nprint("1, 2, 3".split(", "))',
         },
         join: {
-            parms: "base[stack] seperator[string]",
-            description: "Each value in <code>base</code> is converted into a string. The values are then concatenated by <code>seperator</code>.",
-            example: "print((1 2 3).join(\", \"))"
+          parms: "base[stack] seperator[string]",
+          description:
+            "Each value in <code>base</code> is converted into a string. The values are then concatenated by <code>seperator</code>.",
+          example: 'print((1 2 3).join(", "))',
         },
         connect: {
-            parms: "bottom[stack] top[stack]",
-            description: "Returns <code>bottom</code> with the values of <code>top</code> ontop, merging the two stacks.",
-            example: "print((1 2 3).connect((4 5 6)))"
+          parms: "bottom[stack] top[stack]",
+          description:
+            "Returns <code>bottom</code> with the values of <code>top</code> ontop, merging the two stacks.",
+          example: "print((1 2 3).connect((4 5 6)))",
         },
-    }
-    let nav = ""
-    for(var item of Object.keys(functions)) {
-        nav += `<div class="sideBarItem" onclick="revealSection('${item}')" id="${item}">${item}</div>`
-    }
-    document.getElementById("sideBar").innerHTML = nav
-    revealSection("print")
+      };
+      let nav = "";
+      for (var item of Object.keys(functions)) {
+        nav += `<div class="sideBarItem" onclick="revealSection('${item}')" id="${item}">${item}</div>`;
+      }
+      document.getElementById("sideBar").innerHTML = nav;
+      revealSection("print");
 
-    function revealSection(name) {
-        for(var element of document.getElementsByClassName("sideBarItem")) {
-            element.setAttribute("data-selected", "false")
+      function revealSection(name) {
+        for (var element of document.getElementsByClassName("sideBarItem")) {
+          element.setAttribute("data-selected", "false");
         }
-        document.getElementById(name).setAttribute("data-selected", "true")
-        document.getElementById("title").innerText = name
-        document.getElementById("parms").innerText = name + "(" + functions[name].parms + ")"
-        document.getElementById("description").innerHTML = functions[name].description
-        document.querySelector("textarea").value = functions[name].example
-        update(document.querySelector("textarea"))
-        document.querySelector(".consoleText").innerText = ""
-    }
-</script>
+        document.getElementById(name).setAttribute("data-selected", "true");
+        document.getElementById("title").innerText = name;
+        document.getElementById("parms").innerText =
+          name + "(" + functions[name].parms + ")";
+        document.getElementById("description").innerHTML =
+          functions[name].description;
+        document.querySelector("textarea").value = functions[name].example;
+        update(document.querySelector("textarea"));
+        document.querySelector(".consoleText").innerText = "";
+      }
+    </script>
   </body>
 </html>

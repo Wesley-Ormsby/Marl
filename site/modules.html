@@ -27,7 +27,7 @@
         overflow-y: scroll;
         overflow-x: hidden;
         height: 600px;
-        margin: 0px 10px 20px 20px;
+        margin: 10px 10px 20px 5%;
       }
       div[data-selected="true"] {
         background-color: var(--primary);
@@ -36,7 +36,7 @@
       .sideBarHeading {
         color: var(--color);
         font-weight: bold;
-        font-size:25px;
+        font-size: 25px;
         padding: 10px;
         height: min-content;
         width: 100%;
@@ -48,20 +48,21 @@
         flex-direction: column;
         height: 0px;
         overflow-y: auto;
-        overflow-x:hidden;
-        margin-left:10px;
-        margin-bottom:0px;
+        overflow-x: hidden;
+        margin-left: 10px;
+        margin-bottom: 0px;
       }
       .sideBarItem {
         font-weight: normal;
-        font-size:16px;
+        font-size: 16px;
         color: var(--color);
         padding: 10px;
         height: 100%;
         width: 100%;
         margin: 0px;
       }
-      .sideBarHeading:hover, .sideBarItem:hover {
+      .sideBarHeading:hover,
+      .sideBarItem:hover {
         filter: brightness(120%);
       }
       .info {
@@ -71,7 +72,7 @@
         overflow-y: scroll;
         overflow-x: scroll;
         height: 600px;
-        margin: 0px 20px 20px 20px;
+        margin: 10px 5% 20px 20px;
       }
       .info .infoPadding {
         padding: 25px;
@@ -95,6 +96,17 @@
       .block {
         width: 100%;
       }
+      @media screen and (max-width: 450px) {
+        #title {
+          font-size: 20px;
+        }
+        #parms {
+          font-size: 16px;
+        }
+        .info {
+          margin-left: 0px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -103,27 +115,51 @@
         <img src="icon.svg" />
         <p>Marl</p>
       </a>
-      <div class="spacer"></div>
-      <a href="docs.html">Docs</a>
-      <a href="standardLibrary.html">Standard Library</a>
-      <a href="modules.html">Modules</a>
-      <a class="github" href="https://github.com/Wesley-Ormsby/Marl/tree/main">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-github"
-        >
-          <path
-            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
-          />
-          <path d="M9 18c-4.51 2-5-2-7-2" />
-        </svg>
-      </a>
+      <div class="expandableNav">
+        <a class="menu" href="javascript:void(0)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-menu"
+          >
+            <line x1="4" x2="20" y1="12" y2="12" />
+            <line x1="4" x2="20" y1="6" y2="6" />
+            <line x1="4" x2="20" y1="18" y2="18" />
+          </svg>
+        </a>
+        <div class="navDropDown">
+          <a href="docs.html">Docs</a>
+          <a href="standardLibrary.html">Standard Library</a>
+          <a href="modules.html">Modules</a>
+          <a
+            class="github"
+            href="https://github.com/Wesley-Ormsby/Marl/tree/main"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-github"
+            >
+              <path
+                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+              />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
+          </a>
+        </div>
+      </div>
     </nav>
     <header>
       <img src="icon.svg" />
@@ -145,32 +181,32 @@
     </div>
 
     <script>
-      createCodes()
+      createCodes();
       const modules = {
         math: {
           math_pi: {
             parms: "",
-            description:
-              "Returns pi.",
-            example: 'import math\nprint(math_pi())',
+            description: "Returns pi.",
+            example: "import math\nprint(math_pi())",
           },
           math_floor: {
             parms: "input[number]",
             description:
               "Returns the largest interger less than or equal to <code>input</code>.",
-            example: 'import math\nprint(math_floor(5.3))\nprint(math_floor(8.9))',
+            example:
+              "import math\nprint(math_floor(5.3))\nprint(math_floor(8.9))",
           },
           math_ceil: {
             parms: "input[number]",
             description:
               "Returns the largest interger greater than or equal to <code>input</code>.",
-            example: 'import math\nprint(math_ceil(5.3))\nprint(math_ceil(8.9))',
+            example:
+              "import math\nprint(math_ceil(5.3))\nprint(math_ceil(8.9))",
           },
           math_sqrt: {
             parms: "input[number]",
-            description:
-              "Returns the square root of <code>input</code>.",
-            example: 'import math\nprint(math_sqrt(16))\nprint(math_sqrt(7))',
+            description: "Returns the square root of <code>input</code>.",
+            example: "import math\nprint(math_sqrt(16))\nprint(math_sqrt(7))",
           },
         },
         stack: {
@@ -186,19 +222,22 @@
             parms: "base[string] start[string]",
             description:
               "Returns a bool: <code>true</code> if <code>base</code> starts with the characters of <code>start</code>, and <code>false</code> otherwise.",
-            example: 'import str\nprint(str_startsWith("Hello, world!" "Hel"))\nprint(str_startsWith("Hello, world!" "h"))',
+            example:
+              'import str\nprint(str_startsWith("Hello, world!" "Hel"))\nprint(str_startsWith("Hello, world!" "h"))',
           },
           str_endsWith: {
             parms: "base[string] end[string]",
             description:
               "Returns a bool: <code>true</code> if <code>base</code> ends with the characters of <code>end</code>, and <code>false</code> otherwise.",
-            example: 'import str\nprint(str_endsWith("Hello, world!" "ld!"))\nprint(str_endsWith("Hello, world!" "world"))',
+            example:
+              'import str\nprint(str_endsWith("Hello, world!" "ld!"))\nprint(str_endsWith("Hello, world!" "world"))',
           },
           str_indexOf: {
             parms: "base[string] item[string]",
             description:
               "Returns the index of the first occurance of <code>item</code> in <code>base</code>. If there are no occurances of <code>item</code>, return <code>0</code>.",
-            example: 'import str\nprint(str_indexOf("Hello, world!" "world"))\nprint(str_indexOf("Hello, world!" "WORLD"))',
+            example:
+              'import str\nprint(str_indexOf("Hello, world!" "world"))\nprint(str_indexOf("Hello, world!" "WORLD"))',
           },
         },
       };
@@ -211,16 +250,18 @@
         nav += "</div></div>";
       }
       document.getElementById("sideBar").innerHTML = nav;
-      expand(document.querySelector(".sideBarHeading"))
+      expand(document.querySelector(".sideBarHeading"));
 
       function expand(element) {
         // when you click on a dropdown button in the module, this also occures
-        if(element.querySelector("div.dropDown").style.height == "min-content") {
-            return
+        if (
+          element.querySelector("div.dropDown").style.height == "min-content"
+        ) {
+          return;
         }
 
-        for(var dropDown of document.querySelectorAll(".dropDown")) {
-            dropDown.style.height = "0px"
+        for (var dropDown of document.querySelectorAll(".dropDown")) {
+          dropDown.style.height = "0px";
         }
         const id = element.id;
         element.querySelector("div.dropDown").style.height = "min-content";
