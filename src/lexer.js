@@ -101,7 +101,12 @@ export function lex(source) {
         addToken(TT.OR);
         break;
       case "!":
-        addToken(TT.NOT);
+        if (seek("=")) {
+          consume();
+          addToken(TT.NOT_EQUAL);
+        } else {
+          addToken(TT.NOT);
+        }
         break;
       case ".":
         addToken(TT.DOT);

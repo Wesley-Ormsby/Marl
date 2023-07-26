@@ -387,6 +387,7 @@ export function parse(tokens) {
         TT.MOD,
 
         TT.EQUAL,
+        TT.NOT_EQUAL,
         TT.LESS_EQUAL,
         TT.GREATER_EQUAL,
         TT.LESS,

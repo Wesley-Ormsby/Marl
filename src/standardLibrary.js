@@ -21,21 +21,21 @@ export let standardLibrary = {
           return result;
         } else {
           if (token.type == TT.STRING) {
-            let newStr = ""
-            let oldStr = token.value
-            while(oldStr) {
-              if(/^\x1b\[/.test(oldStr)) {
-                newStr += "\\x1b\["
-                oldStr = oldStr.slice(2)
+            let newStr = "";
+            let oldStr = token.value;
+            while (oldStr) {
+              if (/^\x1b\[/.test(oldStr)) {
+                newStr += "\\x1b[";
+                oldStr = oldStr.slice(2);
               } else {
-                newStr += oldStr[0]
-                oldStr = oldStr.slice(1)
+                newStr += oldStr[0];
+                oldStr = oldStr.slice(1);
               }
             }
             return "  ".repeat(level) + newStr + "\n";
           } else {
             return (
-              purple + "  ".repeat(level) + String(token.value) + reset + "\n" 
+              purple + "  ".repeat(level) + String(token.value) + reset + "\n"
             );
           }
         }
@@ -47,9 +47,53 @@ export let standardLibrary = {
       if (typeof window === "undefined") {
         console.log(toPrint);
       } else {
-        outFun(toPrint,id)
+        outFun(toPrint, id, "<br>");
       }
-      
+
+      return { type: TT.NIL, value: "nil" };
+    },
+  },
+  printInLine: {
+    parms: [[TT.NIL, TT.STACK, TT.BOOL, TT.NUMBER, TT.STRING]],
+    unpack: false,
+    fun: function print(parms, callStack, token, outFun, id) {
+      const purple = "\x1b[35m";
+      const reset = "\x1b[0m";
+      function prettyPrint(token) {
+        if (token.type == TT.STACK) {
+          let result = "(";
+          for (var each of token.value) {
+            result += prettyPrint(each);
+          }
+          return result + ")";
+        } else {
+          if (token.type == TT.STRING) {
+            let newStr = "";
+            let oldStr = token.value;
+            while (oldStr) {
+              if (/^\x1b\[/.test(oldStr)) {
+                newStr += "\\x1b[";
+                oldStr = oldStr.slice(2);
+              } else {
+                newStr += oldStr[0];
+                oldStr = oldStr.slice(1);
+              }
+            }
+            return newStr
+          } else {
+            return (
+              purple + String(token.value) + reset
+            );
+          }
+        }
+      }
+      let toPrint = prettyPrint(parms[0]);
+      if (typeof window === "undefined") {
+        process.stdout.write(toPrint);
+      } else {
+        outFun(toPrint, id, "");
+      }
+
       return { type: TT.NIL, value: "nil" };
     },
   },
@@ -119,21 +163,21 @@ export let standardLibrary = {
     parms: [[TT.NIL, TT.STRING, TT.NUMBER, TT.BOOL, TT.STACK]],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      if(parms[0].type == TT.STRING) {
-        return parms[0]
+      if (parms[0].type == TT.STRING) {
+        return parms[0];
       }
       function toStringFromStack(value) {
-        if(value.type == TT.STRING) {
-          return "\"" + value.value.replace(/\\/g,"\\\\") + "\""
-        } else if(value.type == TT.STACK) {
-          let returnString = "("
-          for(var each of value.value) {
-            returnString += toStringFromStack(each)
+        if (value.type == TT.STRING) {
+          return '"' + value.value.replace(/\\/g, "\\\\") + '"';
+        } else if (value.type == TT.STACK) {
+          let returnString = "(";
+          for (var each of value.value) {
+            returnString += toStringFromStack(each);
           }
-          returnString += ")"
-          return returnString
+          returnString += ")";
+          return returnString;
         } else {
-          return String(value.value)
+          return String(value.value);
         }
       }
       return { type: TT.STRING, value: toStringFromStack(parms[0]) };
@@ -150,7 +194,7 @@ export let standardLibrary = {
     parms: [TT.STACK, [TT.NIL, TT.STRING, TT.NUMBER, TT.BOOL, TT.STACK]],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      parms[0].value.push(parms[1])
+      parms[0].value.push(parms[1]);
       return parms[0];
     },
   },
@@ -158,7 +202,7 @@ export let standardLibrary = {
     parms: [TT.STACK, [TT.NIL, TT.STRING, TT.NUMBER, TT.BOOL, TT.STACK]],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      parms[0].value.unshift(parms[1])
+      parms[0].value.unshift(parms[1]);
       return parms[0];
     },
   },
@@ -166,105 +210,171 @@ export let standardLibrary = {
     parms: [TT.STACK],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      if(parms[0].value.length == 0) {
+      if (parms[0].value.length == 0) {
         throw {
-           token: token,
-           msg: `Argument 1 cannot be an empty stack for 'pull' function`,
-           callStack: callStack,
-      };
-    }
-      return parms[0].value.pop()
+          token: token,
+          msg: `Argument 1 cannot be an empty stack for 'pull' function`,
+          callStack: callStack,
+        };
+      }
+      return parms[0].value.pop();
     },
   },
   underPull: {
     parms: [TT.STACK],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      if(parms[0].value.length == 0) {
+      if (parms[0].value.length == 0) {
         throw {
-           token: token,
-           msg: `Argument 1 cannot be an empty stack for 'underPull' function`,
-           callStack: callStack,
-      };
-    }
-      return parms[0].value.shift()
+          token: token,
+          msg: `Argument 1 cannot be an empty stack for 'underPull' function`,
+          callStack: callStack,
+        };
+      }
+      return parms[0].value.shift();
     },
   },
   length: {
     parms: [[TT.STACK, TT.STRING]],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      return {type: TT.NUMBER, value: parms[0].value.length}
+      return { type: TT.NUMBER, value: parms[0].value.length };
     },
   },
   type: {
     parms: [[TT.NIL, TT.STRING, TT.NUMBER, TT.BOOL, TT.STACK]],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      return {type: TT.STRING, value: parms[0].type.toLowerCase()}
+      return { type: TT.STRING, value: parms[0].type.toLowerCase() };
     },
   },
   charFromCode: {
     parms: [TT.NUMBER],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      return {type: TT.STRING, value: String.fromCharCode(parms[0].value)}
+      return { type: TT.STRING, value: String.fromCharCode(parms[0].value) };
     },
   },
   reverse: {
     parms: [TT.STACK],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      parms[0].value = parms[0].value.reverse()
-      return {type: TT.STACK, value: parms[0].value}
+      parms[0].value = parms[0].value.reverse();
+      return { type: TT.STACK, value: parms[0].value };
     },
   },
   codeFromChar: {
     parms: [TT.STRING],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      if(parms[0].value.length != 1) {
+      if (parms[0].value.length != 1) {
         throw {
           token: token,
           msg: `Argument 1 must be a string with a single character`,
           callStack: callStack,
         };
       }
-      return {type: TT.NUMBER, value: parms[0].value.charCodeAt(0)}
+      return { type: TT.NUMBER, value: parms[0].value.charCodeAt(0) };
+    },
+  },
+  error: {
+    parms: [TT.STRING],
+    unpack: false,
+    fun: function print(parms, callStack, token) {
+      throw {
+        justMSG: true,
+        msg: parms[0].value,
+      };
+    },
+  },
+  halt: {
+    parms: [],
+    unpack: false,
+    fun: function print(parms, callStack, token) {
+      throw {
+        halt: true,
+      };
     },
   },
   index: {
     parms: [[TT.STRING, TT.STACK], TT.NUMBER],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      const index = Math.abs(parms[1].value)
-      const stack = parms[0].type == TT.STRING ?  parms[0].value.split("").map(function(x) {return {type:TT.STRING,value:x}}) : parms[0].value
-      const fromTop = parms[1].value < 0
-      if(index == 0) {
+      const index = Math.abs(parms[1].value);
+      const stack =
+        parms[0].type == TT.STRING
+          ? parms[0].value.split("").map(function (x) {
+              return { type: TT.STRING, value: x };
+            })
+          : parms[0].value;
+      const fromTop = parms[1].value < 0;
+      if (index == 0) {
         throw {
           token: token,
           msg: `Argument 2 for 'index' cannot be '0'`,
           callStack: callStack,
         };
       }
-      if(index != Math.floor(index)) {
+      if (index != Math.floor(index)) {
         throw {
           token: token,
           msg: `Argument 2 for 'index' function must be an interger`,
           callStack: callStack,
         };
       }
-      if(index > stack.length) {
+      if (index > stack.length) {
         throw {
           token: token,
           msg: `Argument 2 for 'index' is out of range for the stack`,
           callStack: callStack,
         };
       }
-      if(fromTop) {
-        return stack.reverse()[index-1]
+      if (fromTop) {
+        return stack.reverse()[index - 1];
       } else {
-        return stack[index-1]
+        return stack[index - 1];
+      }
+    },
+  },
+  set: {
+    parms: [
+      TT.STACK,
+      TT.NUMBER,
+      [TT.NIL, TT.STACK, TT.BOOL, TT.NUMBER, TT.STRING],
+    ],
+    unpack: false,
+    fun: function print(parms, callStack, token) {
+      const index = Math.abs(parms[1].value);
+      let stack = parms[0];
+      const fromTop = parms[1].value < 0;
+      const to = parms[2];
+      if (index == 0) {
+        throw {
+          token: token,
+          msg: `Argument 2 for 'index' cannot be '0'`,
+          callStack: callStack,
+        };
+      }
+      if (index != Math.floor(index)) {
+        throw {
+          token: token,
+          msg: `Argument 2 for 'index' function must be an interger`,
+          callStack: callStack,
+        };
+      }
+      if (index > stack.length) {
+        throw {
+          token: token,
+          msg: `Argument 2 for 'index' is out of range for the stack`,
+          callStack: callStack,
+        };
+      }
+      if (fromTop) {
+        stack.value[stack.value.length - index] = to;
+        return stack;
+      } else {
+        stack.value[index - 1] = to;
+        return stack;
       }
     },
   },
@@ -273,11 +383,11 @@ export let standardLibrary = {
     unpack: false,
     fun: async function print(parms, callStack, token) {
       async function wait(secs) {
-        return new Promise(resolve => {
-          setTimeout(resolve, secs*1000);
+        return new Promise((resolve) => {
+          setTimeout(resolve, secs * 1000);
         });
       }
-      await wait(parms[0].value)
+      await wait(parms[0].value);
       return { type: TT.NIL, value: "nil" };
     },
   },
@@ -285,37 +395,40 @@ export let standardLibrary = {
     parms: [TT.NUMBER, TT.NUMBER],
     unpack: false,
     fun: function print(parms, callStack, token) {
-      const number1 = parms[0].value
-      const number2 = parms[1].value
-      if(number1 != Math.floor(number1)) {
+      const number1 = parms[0].value;
+      const number2 = parms[1].value;
+      if (number1 != Math.floor(number1)) {
         throw {
           token: token,
           msg: `Argument 1 for 'random' function must be an interger`,
           callStack: callStack,
         };
       }
-      if(number2 != Math.floor(number2)) {
+      if (number2 != Math.floor(number2)) {
         throw {
           token: token,
           msg: `Argument 2 for 'random' function must be an interger`,
           callStack: callStack,
         };
       }
-      const min = number1 > number2 ? number2 : number1
-      const max = number1 < number2 ? number2 : number1
-      
-      return { type: TT.NUMBER, value: Math.floor(Math.random() * (max - min + 1)) + min };
+      const min = number1 > number2 ? number2 : number1;
+      const max = number1 < number2 ? number2 : number1;
+
+      return {
+        type: TT.NUMBER,
+        value: Math.floor(Math.random() * (max - min + 1)) + min,
+      };
     },
   },
   input: {
     parms: [TT.STRING],
-    unpack: true,
+    unpack: false,
     fun: async function print(parms, callStack, token) {
       let readline = false;
       if (typeof window === "undefined") {
         readline = await import("readline");
       }
-      if(readline) {
+      if (readline) {
         const rl = readline.createInterface({
           input: process.stdin,
           output: process.stdout,
@@ -328,10 +441,10 @@ export let standardLibrary = {
       } else {
         throw {
           token: token,
-        msg: `'input' function does not work with online interpreter`,
-        callStack: callStack
+          msg: `'input' function does not work with online interpreter`,
+          callStack: callStack,
+        };
       }
-      }  
     },
   },
   split: {
@@ -347,31 +460,33 @@ export let standardLibrary = {
     },
   },
   join: {
-    parms: [TT.STACK,TT.STRING],
+    parms: [TT.STACK, TT.STRING],
     unpack: false,
     fun: function print(parms, callStack, token) {
       function toStringFromStack(value) {
-        if(value.type == TT.STRING) {
-          return "\"" + value.value.replace(/\\/g,"\\\\") + "\""
-        } else if(value.type == TT.STACK) {
-          let returnString = "("
-          for(var each of value.value) {
-            returnString += toStringFromStack(each)
+        if (value.type == TT.STRING) {
+          return '"' + value.value.replace(/\\/g, "\\\\") + '"';
+        } else if (value.type == TT.STACK) {
+          let returnString = "(";
+          for (var each of value.value) {
+            returnString += toStringFromStack(each);
           }
-          returnString += ")"
-          return returnString
+          returnString += ")";
+          return returnString;
         } else {
-          return String(value.value)
+          return String(value.value);
         }
       }
-      let stack = parms[0].value.map(x => x.type == TT.STRING ? x.value : toStringFromStack(x))
-      let join = parms[1].value
+      let stack = parms[0].value.map((x) =>
+        x.type == TT.STRING ? x.value : toStringFromStack(x)
+      );
+      let join = parms[1].value;
 
       return { type: TT.STRING, value: stack.join(join) };
     },
   },
   connect: {
-    parms: [TT.STACK,TT.STACK],
+    parms: [TT.STACK, TT.STACK],
     unpack: false,
     fun: function print(parms, callStack, token) {
       return { type: TT.STACK, value: parms[0].value.concat(parms[1].value) };

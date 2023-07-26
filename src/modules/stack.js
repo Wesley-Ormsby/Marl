@@ -18,4 +18,22 @@ export let stack = {
       };
     },
   },
+  stack_isIn: {
+    parms: [TT.STACK, [TT.STRING, TT.NUMBER, TT.BOOL, TT.NIL]],
+    unpack: false,
+    fun: function print(parms, callStack, token) {
+      let isIn = false
+      let check = parms[1].value
+      for(var value of parms[0].value) {
+        if(value.value === check) {
+          isIn = true
+          break
+        }
+      }
+      return {
+        type: TT.BOOL,
+        value: isIn
+      };
+    },
+  },
 };

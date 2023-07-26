@@ -29,7 +29,7 @@
     <meta property="twitter:title" content="Marl Programming Language">
     <meta property="twitter:description" content="A statement-based stack-oriented single-thread procedural language">
     <meta property="twitter:image" content="icon.svg">
-    
+
     <style>
       .content {
         display: flex;
@@ -231,6 +231,12 @@
             description:
               "Returns a stack with <code>length</code> values of <code>item</code>.",
             example: 'import stack\nprint(stack_populate(3 "Hello, world!"))',
+          },
+          stack_isIn: {
+            parms: "base[number] item[number|bool|nil|string]",
+            description:
+              "Returns <code>true</code> if <code>base</code> contains the value <code>item</code>, and <code>false</code> otherwise.",
+            example: 'import stack\nprint(("one" "two" "three").stack_isIn("one"))',
           },
         },
         str: {

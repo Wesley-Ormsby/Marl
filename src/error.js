@@ -1,4 +1,22 @@
 export function error(input, source, outFun = false, id = false) {
+  const reset = "\x1b[0m";
+  const bright = "\x1b[1m";
+  const red = "\x1b[31m";
+  const blue = "\x1b[94m";
+
+  if(input.justMSG ?? false) {
+    const msg = `${bright}${red}Error${reset}${bright}: ${input.msg}${reset}\n`
+    if (outFun) {
+      outFun(msg, id, "");
+    } else {
+      console.log(msg);
+    }
+    return
+  }
+  if(input.halt ?? false) {
+    return
+  }
+
   let charStart = input.token.charStart;
   let charEnd = input.token.charEnd;
   let line = input.token.line;
@@ -10,11 +28,6 @@ export function error(input, source, outFun = false, id = false) {
     charStart = source.split("\n")[line - 1].length + 1;
     charEnd = source.split("\n")[line - 1].length + 1;
   }
-
-  const reset = "\x1b[0m";
-  const bright = "\x1b[1m";
-  const red = "\x1b[31m";
-  const blue = "\x1b[94m";
 
   const message = `${bright}${red}Error${reset}${bright}: ${msg}${reset}\n`;
   let callStack = `${blue}  --> ${reset}${line}:${charStart}\n`;
@@ -63,7 +76,7 @@ export function error(input, source, outFun = false, id = false) {
 
   let fullError = "\n" + message + callStack + code1 + code2 + code3;
   if (outFun) {
-    outFun(fullError, id);
+    outFun(fullError, id, "");
   } else {
     console.log(fullError);
   }

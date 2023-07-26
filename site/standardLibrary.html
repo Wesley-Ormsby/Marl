@@ -14,7 +14,7 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/x-icon" href="icon.svg" />
-    
+
     <meta name="title" content="Marl Programming Language">
     <meta name='keywords' content='Marl, Programming, Stack, Language'>
     <meta name='description' content='A statement-based stack-oriented single-thread procedural language'>
@@ -183,6 +183,12 @@
             "Displays <code>output</code> in the terminal. Returns <code>nil</code>.",
           example: 'print(true)\nprint((1 2 3))\nprint("Hello, World!")',
         },
+        printInLine: {
+          parms: "output[any]",
+          description:
+            "Displays <code>output</code> in the terminal with no trialing <code>\\n</code>. Returns <code>nil</code>.",
+          example: 'printInLine("Hello")\nprintInLine(", ")\nprintInLine("World!")',
+        },
         toNumber: {
           parms: "input[number|bool|nill|string]",
           description:
@@ -270,6 +276,13 @@
           example:
             'print(("one" "two" "three").index(2))\nprint("Hello, world!".index(2))\nprint("Hello, world!".index(-2))',
         },
+        set: {
+          parms: "base[stack] index[number] newValue[any]",
+          description:
+            "Mutate <code>base</code> to change the value at <code>index</code> to <code>newValue</code>. Returns <code>base</code>.",
+          example:
+            'print((1 2 3).set(2 "Two"))\nlet myStack = (1 2 3 4 5)\nmyStack.set(-2 "Four")\nprint(myStack)',
+        },
         wait: {
           parms: "seconds[any]",
           description:
@@ -306,6 +319,18 @@
           description:
             "Returns <code>bottom</code> with the values of <code>top</code> ontop, merging the two stacks.",
           example: "print((1 2 3).connect((4 5 6)))",
+        },
+        error: {
+          parms: "message[string]",
+          description:
+            "Throws an error with the message <code>message</code>",
+          example: `print([10 0 /])\nerror("Don't divide by 0")\nprint("This won't run")`,
+        },
+        halt: {
+          parms: "bottom[stack] top[stack]",
+          description:
+            "Stops execution of all code.",
+          example: `print("one")\nhalt()\nprint("two")`,
         },
       };
       let nav = "";

@@ -28,7 +28,7 @@ export async function run(json, outFun, id) {
           } else {
             throw {
               token: fun,
-              msg: `Function '${fun.value}' does not exist in '${each}' module`,
+              msg: `Function '${fun.value}' does not exist in '${modName}' module`,
               callStack: callStack,
             }; 
           }
@@ -73,7 +73,7 @@ export async function run(json, outFun, id) {
       FLOOR: (a, b) => Math.floor(a / b),
       MINUS: (a, b) => a - b,
       STAR: (a, b) => a * b,
-      SLASH: (a, b) => a / b,
+      SLASH: (a, b) => a / b == Infinity ? 0 : a / b,
       POWER: (a, b) => Math.pow(a, b),
       MOD: (a, b) => a % b,
       LESS_EQUAL: (a, b) => a <= b,
@@ -97,6 +97,22 @@ export async function run(json, outFun, id) {
         };
       }
       returnVal = a === b;
+    } else if (type == TT.NOT_EQUAL) {
+      if (left.type == TT.STACK) {
+        throw {
+          token: token,
+          msg: `Invalid left operand of type 'stack' for '!=' operation`,
+          callStack: callStack,
+        };
+      }
+      if (right.type == TT.STACK) {
+        throw {
+          token: token,
+          msg: `Invalid right operand of type 'stack' for '!=' operation`,
+          callStack: callStack,
+        };
+      }
+      returnVal = a !== b;
     } else if (type == TT.PLUS) {
       if (
         left.type == TT.BOOL ||
@@ -149,12 +165,11 @@ export async function run(json, outFun, id) {
       }
       returnVal = operations[type](a, b);
     }
-    let returnType =
-      typeof returnVal == "string"
-        ? TT.STRING
-        : typeof returnVal == "bool"
-        ? TT.BOOL
-        : TT.NUMBER;
+    let returnType = {
+        string: TT.STRING,
+        boolean: TT.BOOL,
+        number: TT.NUMBER
+      }[typeof(returnVal)]
     list.push({
       type: returnType,
       value: returnVal,
@@ -288,7 +303,7 @@ export async function run(json, outFun, id) {
     }
 
     if (value.type == TT.WHILE) {
-      while (isTrue(await run(value.condition))) {
+      while (!returned && isTrue(await run(value.condition))) {
         await run(value.scope);
         if (exit) {
           exit = false;
@@ -442,6 +457,7 @@ export async function run(json, outFun, id) {
         callStack: callStack,
       };
     }
+
     if (value.type == TT.IDENTIFIER) {
       for (let i = vars.length - 1; i >= 0; i--) {
         if (typeof vars[i][value.value] != "undefined") {

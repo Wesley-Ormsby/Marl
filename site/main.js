@@ -54,7 +54,7 @@ function changeExample(select) {
     }
   }
 
-  function output(value, id) {
+  function output(value, id, trial) {
     const reset = /^\x1b\[0m/;
     const bright = /^\x1b\[1m/;
     const red = /^\x1b\[31m/;
@@ -103,7 +103,7 @@ function changeExample(select) {
       }
     }
     document.querySelector(`#id${id} .consoleText`).innerHTML +=
-      newText + "<br>";
+      newText + trial;
   }
   async function runWithInput(id) {
     let textarea = document.querySelector(`#id${id} textarea`);

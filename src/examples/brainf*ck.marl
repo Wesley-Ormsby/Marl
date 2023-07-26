@@ -1,0 +1,131 @@
+# BrainF*ck Implantation
+
+# When the program starts, it will prompt the user for input. Each character will be referenced according to the ',' in ascending order
+# EXAMPLE:
+# Program: ,.,.,.
+# User input: 123
+# Output: 123
+
+# Import necessary functions
+import { stack_populate } from stack
+import { str_indexOf } from str
+
+# BrainF*ck code
+let code = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>."
+
+# PARSING CODE
+let char = 0 # keeping track of the current character for errors
+let scope = 0 # keeps track of how many '[' there are
+
+# create the ast
+let ast = makeAST()
+if[scope 0 !=] {
+  error(["Expected ']' to close loop at character " char.toString() +])
+}
+
+fun makeAST() {
+  let ast = () 
+  # while char is less than the number of characters in the code
+  while [char code.length() <] {
+    # increment char and grab the token at that index
+    char = [char 1 +]
+    let token = code.index(char)
+    case {
+      # Add commands 
+      when ["+-<>.,".str_indexOf(token)] {
+        ast.push(token)
+      }
+      # If the character is '[' start a loop
+      when [token "[" ==] {
+        scope = [scope 1 +]
+        let newAST = makeAST()
+        ast.push(newAST)
+      }
+      # If the character is ']' exit the loop, or throw an error if not in a loop
+      when [token "]" ==] {
+        if[scope 0 ==] {
+          error(["Invalid Input: Unexpected ']' at character " char.toString() +])
+        }
+        scope = [scope 1 -]
+        return ast
+      }
+      # Skip all other characters
+    }
+  }
+  return ast
+}
+
+
+# EVALUATION
+
+let pointer = 1 # Position of pointer
+let tapeLength = 30000 # Number of cells in the tape
+let tape = stack_populate(tapeLength 0) # The tape
+# Get user input
+let inputCounter = 0 
+let inputChars = input("Input all character that you would like. Each character will be accessed by the ',' in accending order: ")
+
+# Traverse the ast
+foreach instruction of ast {
+  execute(instruction)
+}
+
+fun execute(instruction) {
+  case {
+    # If the instruction is a loop, repeat instruction while the current cell is '0'
+    when [instruction.type() "stack" ==] {
+      while [tape.index(pointer) 0 !=] {
+        foreach newInstruction of instruction {
+          execute(newInstruction)
+        }
+      }
+    }
+    # If the instruction is a '+', increment the value in the current cell. If it is greater than '255', wrap it back to '0'
+    when [instruction "+" ==] {
+      let increment = [tape.index(pointer) 1 +]
+      if [increment 255 >] {
+        increment = 0
+      }
+      tape.set(pointer increment)
+    }
+    # If the instruction is a '-', decrement the value in the current cell. If it is less than '0', wrap it back to '255'
+    when [instruction "-" ==] {
+      let increment = [tape.index(pointer) 1 -]
+      if [increment 0 <] {
+        increment = 255
+      }
+      tape.set(pointer increment)
+    }
+    # If the instruction is a '>', move the pointer right one cell. If the pointer is greater than the tape length, wrap the pointer to '0'
+    when [instruction ">" ==] {
+      pointer = [pointer 1 +]
+      if [pointer tapeLength >] {
+        pointer = 0
+      }
+    }
+    # If the instruction is a '<', move the pointer left one cell. If the pointer is less than the '0', wrap the pointer to the tape length
+    when [instruction "<" ==] {
+      pointer = [pointer 1 -]
+      if [pointer 0 <] {
+        pointer = tapeLength
+      }
+    }
+    # If the instruction is a '.', output the cell as a character
+    when [instruction "." ==] {
+      printInLine(tape.index(pointer).charFromCode())
+    }
+    # If the instruction is a ',', add the next chracter code of the input to the current cell. If the input runs out of characters, set the value of the cell to '0'
+    when [instruction "," ==] {
+      inputCounter = [inputCounter 1 +]
+      if [inputCounter inputChars.length() >] {
+        tape.set(pointer 0)
+      } else {
+        let charCode = inputChars.index(inputCounter).codeFromChar()
+        if[charCode 255 >] {
+          charCode = 0
+        }
+        tape.set(pointer charCode)
+      }
+    }
+  }
+}

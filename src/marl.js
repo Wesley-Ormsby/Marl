@@ -10,10 +10,3 @@ import { error } from "./error.js";
     error(err, input, outFun,id);
   }
 }
-
-marl(`import str
-print( "this".str_startsWith("th") )
-print( "this".str_endsWith("f") )
-print( "this".str_indexOf("i") )
-print( "this".str_indexOf("u") )
-`)
