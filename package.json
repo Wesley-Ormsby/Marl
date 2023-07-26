@@ -1,6 +1,6 @@
 {
   "name": "marl",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A new stack oriented programming languge with statments",
   "main": "./src/cli.js",
   "scripts": {
